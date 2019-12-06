@@ -7,13 +7,15 @@ export const LOGIN_START = 'LOGIN_START'
 export const LOGIN_SUCCESS='LOGIN_SUCCESS'
 export const LOGIN_FAIL = 'LOGIN_FAIL'
 export const SET_FRIENDS = 'SET_FRIENDS'
-export const HANDLE_CHANGE_LOGIN= 'HANDLE_CHANGE_LOGIN'
-export const HANDLE_CHANGE_FRIEND='HANDLE_CHANGE_FRIEND'
+export const HANDLE_CHANGE = 'HANDLE_CHANGE'
 export const LOGOUT = 'LOGOUT'
 export const ADD_FRIEND_START='ADD_FRIEND_START'
 export const ADD_FRIEND_FAIL='ADD_FRIEND_FAIL'
 export const ADD_FRIEND_SUCCESS='ADD_FRIEND_SUCCESS'
 export const DELETE_FRIEND='DELETE_FRIEND'
+export const EDIT_START = 'EDIT_START'
+export const EDIT_SUCCESS = 'EDIT_SUCCESS'
+export const EDIT_FAIL = 'EDIT_FAIL'
 
 export const getFriends = () => dispatch => {
   dispatch({ type: GET_FRIENDS_START });
@@ -52,6 +54,20 @@ export const addFriend = (event, newFriend) => dispatch => {
       return dispatch({ type: ADD_FRIEND_FAIL, payload: err })
     });
 };
+export const startEdit = (id)=> ({
+  type: EDIT_START,
+  payload: id
+})
+export const finishEdit = (friend, id) => dispatch => {
+  axiosWithAuth()
+    .put(`http://localhost:5000/api/friends/${id}`, friend)
+    .then(res =>
+      dispatch({ type: EDIT_SUCCESS, payload: res.data.payload })
+    )
+    .catch(err => {
+      return dispatch({ type: EDIT_FAIL, payload: err })
+    });
+};
 
 export const deleteFriend = id => dispatch=> {
   axiosWithAuth()
@@ -59,13 +75,9 @@ export const deleteFriend = id => dispatch=> {
     .then(res => dispatch({ type: DELETE_FRIEND, payload: res.data.payload}))
     .catch(err=> console.log(err))
 }
-export const handleChangeLogin = event => ({
-    type: HANDLE_CHANGE_LOGIN,
-    payload: event
-})
-export const handleChangeFriend = event => ({
-    type: HANDLE_CHANGE_FRIEND,
-    payload: event
+export const handleChange = (event, formType) => ({
+    type: HANDLE_CHANGE,
+    payload: { event: event, form: formType}
 })
 
 export const setFriends = list => ({
