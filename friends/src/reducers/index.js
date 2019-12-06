@@ -91,9 +91,20 @@ switch (type) {
     case LOGOUT:
         return {
             ...state,
-            token: '',
+            error: '',
+            isFetching: false,
+            isLoggingIn: false,
+            isAdding: false,
+            isEditing: false,
+            friendsList: [],
             credentials: {},
-            error: ''
+            newFriend: {
+                name: '',
+                age: '',
+                email: ''
+            },
+            token: '',
+            editedFriend: {}
         }
     case ADD_FRIEND_START:
         return {

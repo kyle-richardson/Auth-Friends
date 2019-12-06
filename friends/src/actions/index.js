@@ -85,9 +85,12 @@ export const setFriends = list => ({
     payload: list
 })
 
-export const logout = ()=> ({
+export const logout = ()=> dispatch => {
+  localStorage.clear()
+  dispatch({
     type: LOGOUT
 })
+}
 
 
 

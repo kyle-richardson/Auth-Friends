@@ -6,13 +6,16 @@ import Logout from "./Logout"
 import AddFriendForm from "./AddFriendForm"
 import Friend from "./Friend"
 
-const FriendsList = ({friendsList, getFriends})=> {
+const FriendsList = ({friendsList, getFriends, isFetching})=> {
 
     useEffect(()=> {
         getFriends()
         // eslint-disable-next-line
     }, [friendsList])
     return(
+        !friendsList ?
+        <div>Loading Friends...</div>
+        : 
         <div>
             <Link to="/home">
                 <div>Go Back</div>
@@ -25,11 +28,13 @@ const FriendsList = ({friendsList, getFriends})=> {
             <AddFriendForm/>
             <Logout/>
         </div>
+        
     )
 }
 
 const mapStateToProps = state => ({
-    friendsList: state.friendsList
+    friendsList: state.friendsList,
+    isFetching: state.isFetching
   })
   
   export default connect(mapStateToProps,{getFriends})(FriendsList);

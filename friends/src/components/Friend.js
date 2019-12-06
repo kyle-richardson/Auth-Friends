@@ -32,7 +32,7 @@ const Friend = ({friend, deleteFriend, isEditing, startEdit, finishEdit, editedF
             <p>Age: {friend.age}</p>
             <p>Email: {friend.email}</p>
             <div onClick={()=> deleteFriend(friend.id)}>X</div>
-            <div onClick={()=> startEdit(friend.id)}>Edit</div>
+            {!isEditing && <div onClick={()=> startEdit(friend.id)}>Edit</div>}
         </div>
     )
 }
