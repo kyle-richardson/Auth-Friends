@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {connect} from "react-redux"
-import {login, handleChange} from "../actions"
+import {login, handleChangeLogin} from "../actions"
 
 
 /*format for users*/
@@ -13,7 +13,7 @@ import {login, handleChange} from "../actions"
 //   }
 
 
-const Login = ({history,credentials,handleChange,login,token}) => {
+const Login = ({history,credentials,handleChangeLogin,login,error,token}) => {
       
     useEffect(()=> {
       if(!!token){
@@ -26,18 +26,21 @@ const Login = ({history,credentials,handleChange,login,token}) => {
     return (
       <div>
         <h2>Login below</h2>
+        {error && <div style={{color: 'red'}}>Username or Password incorrect.</div>}
         <form onSubmit={(e)=>login(e, credentials)}>
           <input
             type="text"
             name="username"
+            placeholder="Username"
             value={credentials.username}
-            onChange={handleChange}
+            onChange={handleChangeLogin}
           />
           <input
             type="password"
             name="password"
+            placeholder="Password"
             value={credentials.password}
-            onChange={handleChange}
+            onChange={handleChangeLogin}
           />
           <button>Log in</button>
         </form>
@@ -46,8 +49,9 @@ const Login = ({history,credentials,handleChange,login,token}) => {
 }
 
 const mapStateToProps = state => ({
-  token: state.token,
-  credentials: state.credentials
+  credentials: state.credentials,
+  error: state.error,
+  token: state.token
 })
 
-export default connect(mapStateToProps,{login, handleChange})(Login);
+export default connect(mapStateToProps,{login, handleChangeLogin})(Login);

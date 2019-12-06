@@ -3,13 +3,15 @@ import {Link} from "react-router-dom"
 import {connect} from "react-redux"
 import {getFriends} from "../actions"
 import Logout from "./Logout"
+import AddFriendForm from "./AddFriendForm"
+import Friend from "./Friend"
 
-const FriendsList = ({friendsList, getFriends, credentials})=> {
+const FriendsList = ({friendsList, getFriends})=> {
 
     useEffect(()=> {
-        getFriends(credentials)
+        getFriends()
         // eslint-disable-next-line
-    }, [])
+    }, [friendsList])
     return(
         <div>
             <Link to="/home">
@@ -17,21 +19,17 @@ const FriendsList = ({friendsList, getFriends, credentials})=> {
             </Link>
             {friendsList && friendsList.map(friend=>{
                 return (
-                    <div key={friend.id}>
-                        <p>Name: {friend.name}</p>
-                        <p>Age: {friend.age}</p>
-                        <p>Email: {friend.email}</p>
-                    </div>
+                    <Friend key={friend.id} friend={friend}/>
                 )
             })}
+            <AddFriendForm/>
             <Logout/>
         </div>
     )
 }
 
 const mapStateToProps = state => ({
-    friendsList: state.friendsList,
-    credentials: state.credentials
+    friendsList: state.friendsList
   })
   
   export default connect(mapStateToProps,{getFriends})(FriendsList);
