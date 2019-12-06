@@ -21,6 +21,7 @@ const Login = ({history,credentials,handleChange,login,token}) => {
         localStorage.setItem('token', token);
         history.push('/home')
       }
+      // eslint-disable-next-line
     } ,[token])
 
     return (

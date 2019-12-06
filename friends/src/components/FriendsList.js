@@ -8,21 +8,22 @@ const FriendsList = ({friendsList, getFriends, credentials})=> {
 
     useEffect(()=> {
         getFriends(credentials)
+        // eslint-disable-next-line
     }, [])
     return(
         <div>
+            <Link to="/home">
+                <div>Go Back</div>
+            </Link>
             {friendsList && friendsList.map(friend=>{
                 return (
-                    <div>
+                    <div key={friend.id}>
                         <p>Name: {friend.name}</p>
                         <p>Age: {friend.age}</p>
                         <p>Email: {friend.email}</p>
                     </div>
                 )
             })}
-            <Link to="/home">
-                <div>Go Back</div>
-            </Link>
             <Logout/>
         </div>
     )
