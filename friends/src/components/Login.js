@@ -23,7 +23,7 @@ const Login = (props) => {
         localStorage.setItem('token', res.data.token);
         props.history.push('/home');
       })
-      .catch(err=> console.log(err))
+      .catch(err=> console.log(err.error))
   }
 
   const handleChange = e => {
@@ -35,6 +35,7 @@ const Login = (props) => {
 
     return (
       <div>
+        <h2>Login below</h2>
         <form onSubmit={login}>
           <input
             type="text"
