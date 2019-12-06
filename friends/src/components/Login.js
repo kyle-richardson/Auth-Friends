@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import {connect} from "react-redux"
 import {login, handleChange} from "../actions"
-// import useLocalStorage from "../useLocalStorage"
 
 
 /*format for users*/
