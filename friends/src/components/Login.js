@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { axiosWithAuth } from '../axiosAuth';
+import React, {useEffect} from 'react';
+import {connect} from "react-redux"
+import {login, handleChange} from "../actions"
 // import useLocalStorage from "../useLocalStorage"
 
 
@@ -13,30 +14,19 @@ import { axiosWithAuth } from '../axiosAuth';
 //   }
 
 
-const Login = (props) => {
- const [credentials, setCredentials] = useState({});
-
-  const login = e => {
-    e.preventDefault();
-    axiosWithAuth().post('http://localhost:5000/api/login', credentials)
-      .then(res => {
-        localStorage.setItem('token', res.data.token);
-        props.history.push('/home');
-      })
-      .catch(err=> console.log(err.error))
-  }
-
-  const handleChange = e => {
-      setCredentials( {
-        ...credentials,
-        [e.target.name]: e.target.value,
-      })
-  }
+const Login = ({history,credentials,handleChange,login,token}) => {
+      
+    useEffect(()=> {
+      if(!!token){
+        localStorage.setItem('token', token);
+        history.push('/home')
+      }
+    } ,[token])
 
     return (
       <div>
         <h2>Login below</h2>
-        <form onSubmit={login}>
+        <form onSubmit={(e)=>login(e, credentials)}>
           <input
             type="text"
             name="username"
@@ -55,4 +45,9 @@ const Login = (props) => {
     )
 }
 
-export default Login;
+const mapStateToProps = state => ({
+  token: state.token,
+  credentials: state.credentials
+})
+
+export default connect(mapStateToProps,{login, handleChange})(Login);

@@ -1,22 +1,17 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect} from "react"
 import {Link} from "react-router-dom"
-import {axiosWithAuth} from "../axiosAuth"
+import {connect} from "react-redux"
+import {getFriends} from "../actions"
+import Logout from "./Logout"
 
-const FriendsList = ()=> {
-    const [friendList, setFriendList] = useState([])
+const FriendsList = ({friendsList, getFriends, credentials})=> {
 
     useEffect(()=> {
-        axiosWithAuth().get("http://localhost:5000/api/friends")
-        .then(res=>{
-            // setFriendList(res.data)
-            console.log(res.data)
-        })
-        .catch(err=> console.log(err))
-
+        getFriends(credentials)
     }, [])
     return(
         <div>
-            {friendList && friendList.map(friend=>{
+            {friendsList && friendsList.map(friend=>{
                 return (
                     <div>
                         <p>Name: {friend.name}</p>
@@ -25,8 +20,17 @@ const FriendsList = ()=> {
                     </div>
                 )
             })}
+            <Link to="/home">
+                <div>Go Back</div>
+            </Link>
+            <Logout/>
         </div>
     )
 }
 
-export default FriendsList
+const mapStateToProps = state => ({
+    friendsList: state.friendsList,
+    credentials: state.credentials
+  })
+  
+  export default connect(mapStateToProps,{getFriends})(FriendsList);
